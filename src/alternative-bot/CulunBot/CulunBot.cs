@@ -81,9 +81,9 @@ public class CulunBot : Bot
 
     private void AttackEnemies()
     {
-        SetTurnLeft(6_000);
-        MaxSpeed = 4;
-        Forward(6_000);
+        SetTurnLeft(5_000);
+        MaxSpeed = 5;
+        Forward(5_000);
     }
 
     private void ResetTracking()
@@ -125,6 +125,8 @@ public class CulunBot : Bot
 
     public override void OnHitWall(HitWallEvent e)
     {
-        Back(30);
+        SetTurnRight(20_000);
+        MaxSpeed = 5;
+        Back(50);
     }
 }
