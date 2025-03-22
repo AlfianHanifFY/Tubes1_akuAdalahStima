@@ -7,10 +7,7 @@ using Robocode.TankRoyale.BotApi.Events;
 public class SenggolTembakBot : Bot
 {
     private Dictionary<int, ScannedBotInfo> scannedBots = new Dictionary<int, ScannedBotInfo>();
-    
     private bool isScanning = false;
-    private int remainingBots = 3;
-    private const double FIRE_POWER = 3;
     private const double MOVE_DISTANCE = 50;
     
     private Random random = new Random();
@@ -22,34 +19,33 @@ public class SenggolTembakBot : Bot
     
     SenggolTembakBot() : base(BotInfo.FromFile("SenggolTembakBot.json")) { }
     
-    public override void Run()
+public override void Run()
+{
+    BodyColor = Color.Red;
+    TurretColor = Color.Black;
+    RadarColor = Color.Orange;
+    BulletColor = Color.Yellow;
+    ScanColor = Color.Yellow;
+
+    while (IsRunning)
     {
-        BodyColor = Color.Red;
-        TurretColor = Color.Black;
-        RadarColor = Color.Orange;
-        BulletColor = Color.Yellow;
-        ScanColor = Color.Yellow;
+        StartNewScanCycle();
         
-        while (IsRunning)
+        TurnRadarRight(360);
+        
+        if (RadarTurnRemaining == 0)
         {
-            StartNewScanCycle();
-            SetTurnRadarRight(45);
-            WaitFor(new TurnCompleteCondition(this));
-            
-            
-            if (scannedBots.Count == remainingBots){
-                Rescan();
-            }
             FireAtClosestTarget();
-            FinishScanCycle();
-            
-            MoveRandomly();
-                        
         }
+        
+        FinishScanCycle();
     }
+}
     
-    public override void OnBotDeath(BotDeathEvent e){
-        remainingBots--;
+    public override void OnRoundStarted(RoundStartedEvent e)
+    {
+        Forward(10);
+        scannedBots.Clear();
     }
 
     private void StartNewScanCycle()
@@ -61,19 +57,11 @@ public class SenggolTembakBot : Bot
     private void FinishScanCycle()
     {
         isScanning = false;
+        scannedBots.Clear();
     }
     
-    private void MoveRandomly()
+    private void Move()
     {
-
-        
-        if (random.NextDouble() < 0.4)
-        {
-            double turnAngle = random.NextDouble() * 180 - 90;
-            TurnRight(turnAngle);
-
-        }
-        
         double moveDistance = random.NextDouble() * MOVE_DISTANCE + 20; // Jarak antara 20-70
         SetForward(moveDistance);
         WaitFor(new TurnCompleteCondition(this));
@@ -82,7 +70,6 @@ public class SenggolTembakBot : Bot
     
     private void FireAtClosestTarget()
     {
-            
         int closestBotId = -1;
         double closestDistance = double.MaxValue;
         
@@ -99,41 +86,32 @@ public class SenggolTembakBot : Bot
         {
             var target = scannedBots[closestBotId];
             
-
+            TurnLeft(target.Bearing);
             
-            double gunTurn = NormalizeAngle(target.Bearing - GunDirection);
-            while (GunTurnRemaining > 0){}
-            SetTurnGunRight(gunTurn);
-            // while (GunTurnRemaining > 0){
-            //     SetForward(0);
-            //     SetBack(0);  
-            //     WaitFor(new TurnCompleteCondition(this));
-            // }
-
-
-            Fire(CalculateFirePower(target.Distance));
+            while (GunTurnRemaining != 0) { }
+            
+            SmartFire(target.Distance);
+            
+            Move();
 
         }
     }
 
 
-    private double CalculateFirePower(double distance)
+    private void SmartFire(double distance)
     {
+        double power;
+        if (distance > 300){
+            return;
+        }
         if (distance < 100)
-            return FIRE_POWER;
+            power = 3;
         else if (distance < 200)
-            return FIRE_POWER * 0.8;
+            power = 2;
         else
-            return FIRE_POWER * 0.5;
-    }
-    
-    private double NormalizeAngle(double angle)
-    {
-        while (angle > 180)
-            angle -= 360;
-        while (angle < -180)
-            angle += 360;
-        return angle;
+            power = 1;
+
+        Fire(power);
     }
     
     public override void OnScannedBot(ScannedBotEvent e)
@@ -142,35 +120,35 @@ public class SenggolTembakBot : Bot
         if (isScanning)
         {
             double distance = DistanceTo(e.X,e.Y);
-            double absoluteBearing = Math.Atan2(e.Y - Y, e.X - X) * (180 / Math.PI);
+            double bearing = BearingTo(e.X, e.Y);
 
             scannedBots[e.ScannedBotId] = new ScannedBotInfo
             {
                 Distance = distance,
-                Bearing = NormalizeAngle(absoluteBearing),
+                Bearing = bearing,
                 Energy = e.Energy,
-                LastSeen = 1
             };
         }
     }
     
-    // Ketika bot kita menabrak tembok
     public override void OnHitWall(HitWallEvent e)
     {
-        SetBack(30);
-        WaitFor(new TurnCompleteCondition(this));
-        SetTurnRight(180);
-        WaitFor(new TurnCompleteCondition(this));
+        Back(30);
+        TurnRight(180);
+        SetForward(30);
 
     }
     
+    public override void OnHitBot(HitBotEvent e)
+    {
+        Fire(3);
+    }
     
     private class ScannedBotInfo
     {
         public double Distance { get; set; }
         public double Bearing { get; set; }
         public double Energy { get; set; }
-        public double LastSeen { get; set; }
     }
 }
 
@@ -185,7 +163,6 @@ public class TurnCompleteCondition : Condition
 
     public override bool Test()
     {
-        // turn is complete when the remainder of the turn is zero
         return bot.TurnRemaining == 0;
     }
 }
