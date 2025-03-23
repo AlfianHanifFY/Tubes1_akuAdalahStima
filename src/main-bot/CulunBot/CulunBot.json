@@ -1,8 +1,8 @@
 {
-  "name": "Culun Bot",
+  "name": "akuAdalahStima",
   "version": "1.0",
-  "authors": ["IRK Lab Assistant"],
-  "description": "A bot that very Culun so it run away and fires a bullet from far",
+  "authors": ["Alfian","Carlo","Radhi"],
+  "description": "A bot that avoids high-density enemy areas to maximize survival while strategically attacking from a safer position.",
   "homepage": "",
   "countryCodes": ["id"],
   "platform": ".Net 6.0",
