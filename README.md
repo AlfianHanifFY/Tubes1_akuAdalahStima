@@ -7,7 +7,7 @@
 - [Implemented Greedy Algorithms](#implemented-greedy-algorithms)
 - [Program Structure](#program-structure)
 - [Requirements & Installation](#requirements--installation)
-- [Building and Compiling](#building-and-compiling)
+- [Building and Compiling Bot](#building-and-compiling-bot)
 - [Author](#author)
 - [References](#references)
 
@@ -80,7 +80,13 @@ Before running the bot, ensure that the following dependencies are installed:
 5. Adjusting Game Rules (Optional)
     - Click **Setup Rules** to customize settings such as turn count, arena size, etc.
 
-## Building and Compiling
+## Building and Compiling Bot
+### 1. Go to bot directory
+        cd your/bot/directory
+### 2. Build
+        dotnet build
+### 3. Run
+        dotnet run
 
 ## Author
 | **NIM**  | **Nama Anggota**               | **Github** |
