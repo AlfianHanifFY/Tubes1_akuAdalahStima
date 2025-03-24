@@ -21,11 +21,11 @@ public class NyampahBot : Bot
 
     public override void Run()
     {
-        BodyColor = Color.Green;
-        TurretColor = Color.Black;
-        RadarColor = Color.Orange;
+        BodyColor = Color.Pink;
+        TurretColor = Color.Pink;
+        RadarColor = Color.Yellow;
         BulletColor = Color.Black;
-        ScanColor = Color.Yellow;
+        ScanColor = Color.Pink;
 
         while (IsRunning)
         {

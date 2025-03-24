@@ -1,5 +1,5 @@
 {
-  "name": "akuAdalahStima (SenggolTembakBot)",
+  "name": "akuAdalahStima(SenggolTembak)",
   "version": "1.0",
   "authors": ["Alfian","Carlo","Radhi"],
   "description": "A bot that prioritizes attacking the closest detected enemy based on radar scanning.",

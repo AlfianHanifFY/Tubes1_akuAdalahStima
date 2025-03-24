@@ -19,28 +19,28 @@ public class SenggolTembakBot : Bot
     
     SenggolTembakBot() : base(BotInfo.FromFile("SenggolTembakBot.json")) { }
     
-public override void Run()
-{
-    BodyColor = Color.Red;
-    TurretColor = Color.Black;
-    RadarColor = Color.Orange;
-    BulletColor = Color.Yellow;
-    ScanColor = Color.Yellow;
-
-    while (IsRunning)
+    public override void Run()
     {
-        StartNewScanCycle();
-        
-        TurnRadarRight(360);
-        
-        if (RadarTurnRemaining == 0)
+        BodyColor = Color.Pink;
+        TurretColor = Color.Pink;
+        RadarColor = Color.Yellow;
+        BulletColor = Color.Black;
+        ScanColor = Color.Pink;
+
+        while (IsRunning)
         {
-            FireAtClosestTarget();
+            StartNewScanCycle();
+            
+            TurnRadarRight(360);
+            
+            if (RadarTurnRemaining == 0)
+            {
+                FireAtClosestTarget();
+            }
+            
+            FinishScanCycle();
         }
-        
-        FinishScanCycle();
     }
-}
     
     public override void OnRoundStarted(RoundStartedEvent e)
     {

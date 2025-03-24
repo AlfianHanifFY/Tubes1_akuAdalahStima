@@ -21,7 +21,12 @@ public class GoBot : Bot
     public override void Run()
     {
         /* Customize bot colors, read the documentation for more information */
-        BodyColor = Color.Gray;
+        BodyColor = Color.Pink;
+        TurretColor = Color.Pink;
+        RadarColor = Color.Yellow;
+        BulletColor = Color.Black;
+        ScanColor = Color.Pink;
+        
         AdjustRadarForGunTurn = true;
         AdjustGunForBodyTurn = false;
         MaxRadarTurnRate = 100;
