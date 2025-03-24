@@ -2,6 +2,10 @@
 <h2 align="center">Semester II tahun 2024/2025</h2>
 <h3 align="center">Pemanfaatan Algoritma Greedy dalam Pembuatan Bot Permainan Robocode Tank Royale</h3>
 
+<p align="center">
+  <img src="game.png" alt="Main" width="400">
+</p>
+
 ## Table of Contents
 - [Description](#description)
 - [Implemented Greedy Algorithms](#implemented-greedy-algorithms)
@@ -83,11 +87,17 @@ Before running the bot, ensure that the following dependencies are installed:
 ## Building and Compiling Bot
 This is an alternative if you want to build and compile the bot without using GUI. Make sure to have .NET installed
 ### 1. Go to bot directory
-        cd your/bot/directory
+```bash
+cd your/bot/directory
+```
 ### 2. Build
-        dotnet build
+```bash
+dotnet build
+```
 ### 3. Run
-        dotnet run
+```bash
+dotnet run
+```
 
 ## Author
 | **NIM**  | **Nama Anggota**               | **Github** |
