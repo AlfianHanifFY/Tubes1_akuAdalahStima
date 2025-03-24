@@ -81,6 +81,7 @@ Before running the bot, ensure that the following dependencies are installed:
     - Click **Setup Rules** to customize settings such as turn count, arena size, etc.
 
 ## Building and Compiling Bot
+This is an alternative if you want to build and compile the bot without using GUI. Make sure to have .NET installed
 ### 1. Go to bot directory
         cd your/bot/directory
 ### 2. Build
